@@ -1,13 +1,27 @@
 ﻿$(function draw() {
-    var canvas = document.getElementById("img");
+    var canvas = document.getElementById("draw");
     if (canvas.getContext) {
         cxt = canvas.getContext("2d");
         img = document.getElementById("src");
         cxt.drawImage(img, 0, 0, 300, 300);
     }
-	init();
-
+    init();
 });
+
+$(".bottle2").one("mouseover", function () {
+    $(".bottle2").addClass("bottle-fall");
+    window.setTimeout(function () {
+        $(".bottle2").removeClass("bottle-stand");
+    }, 1000);
+    
+});
+
+$("#download").click(function () {
+    var canvas = document.getElementById('draw');
+    var img = canvas.toDataURL("image/png");
+    window.open(img, '_blank');
+});
+
 
 var canvas, ctx, flag_in_canvas = false, flag_pressed = false,
     prevX = 0,
@@ -18,8 +32,7 @@ var canvas, ctx, flag_in_canvas = false, flag_pressed = false,
 function init() {
     canvas = document.getElementById('draw');
     ctx = canvas.getContext("2d");
-    w = canvas.width;
-    h = canvas.height;
+
     canvas.addEventListener("mousemove", function (e) {
         findxy('move', e)
     }, false);
@@ -37,14 +50,14 @@ function init() {
     }, false);
 }
 
-function draw() {
+function draw_() {
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
     ctx.lineTo(currX, currY);
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
     ctx.stroke();
-	ctx.closePath();
+    ctx.closePath();
 }
 function findxy(res, e) {
     if (res == 'down') {
@@ -73,7 +86,7 @@ function findxy(res, e) {
             prevY = currY;
             currX = e.clientX - 600;
             currY = e.clientY - 230;
-            draw();
+            draw_();
         }
     }
 }
